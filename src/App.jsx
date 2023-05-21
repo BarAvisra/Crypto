@@ -1,9 +1,24 @@
+import React from 'react'
+import { useEffect } from 'react'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import Home from './pages/Home.jsx'
+import Show from './pages/Show.jsx'
+import homeStore from './stores/homeStore.js'
 
 function App() {
 
+  useEffect(() => {
+
+  }, [])
+
   return (
     <>
-      <h1>HI</h1>
+      <BrowserRouter>
+        <Routes>
+          <Route index element={<Home />} />
+          <Route path='/:id' element={<Show />} />
+        </Routes>
+      </BrowserRouter>
     </>
   )
 }
