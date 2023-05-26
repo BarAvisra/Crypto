@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 
 export default function useFetchGet(url) {
@@ -22,7 +22,7 @@ export default function useFetchGet(url) {
                 setError(error);
             }
             finally {
-                loading(false);
+                setLoading(false);
             }
         }
 
