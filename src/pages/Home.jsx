@@ -16,6 +16,7 @@ function Home() {
     const [trending, setTrending] = useState([]);
     const [query, setQuery] = useState('');
     const [isSearching, setIsSearching] = useState(false);
+    const [prcBtc, setPrcBtc] = useState('')
 
     const handleSearch = (e) => {
         setQuery(e.target.value);
@@ -32,15 +33,23 @@ function Home() {
     useEffect(() => {
 
         const fetchTrendingCoins = async () => {
-            const res = await axios.get(trendingUrl);
+            const [res, btcRes] = await Promise.all([
+                axios.get(trendingUrl),
+                axios.get(`https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd`)
+            ])
+
+            const btcPrice = btcRes.data.bitcoin.usd
+            setPrcBtc(btcPrice);
+
             const trendingCoins = res.data.coins.map((coin) => {
                 return {
                     name: coin.item.name,
                     image: coin.item.large,
                     id: coin.item.id,
-                    priceBtc: coin.item.price_btc
+                    priceBtc: coin.item.price_btc,
                 };
             });
+            console.log(trendingCoins);
             setCoins(trendingCoins);
             setTrending(trendingCoins);
         };
@@ -90,7 +99,7 @@ function Home() {
                             <Tr>
                                 <Th></Th>
                                 <Th>Coin</Th>
-                                {!isSearching && <Th>Price (BTC)</Th>}
+                                {!isSearching && <Th textAlign='center'>Price</Th>}
                             </Tr>
                         </Thead>
                         <Tbody>
@@ -109,9 +118,10 @@ function Home() {
                                         </Td>
                                         {!isSearching && coin.priceBtc && (
                                             <Td>
-                                                <Flex alignItems="center">
-                                                    <Image boxSize="20px" src={btcIcon} mr={1} />
-                                                    <Text>{coin.priceBtc.toFixed(10)}</Text>
+                                                <Flex alignItems="center" direction="column">
+                                                    <Text>${coin.priceBtc.toFixed(7) * prcBtc}</Text>
+                                                    {/* {coin.priceBtc.toFixed(7)} */}
+                                                    {/* <Image boxSize="20px" src={btcIcon} mr={1} /> */}
                                                 </Flex>
                                             </Td>
                                         )}
