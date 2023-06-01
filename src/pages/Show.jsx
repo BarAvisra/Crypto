@@ -2,7 +2,7 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip } from 'recharts';
-import { Box, Flex, Image, Text } from '@chakra-ui/react';
+import { Box, Flex, Image, Text, Button } from '@chakra-ui/react';
 import Nav from '../components/partials/Nav';
 
 function Show() {
@@ -13,12 +13,12 @@ function Show() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const [graphRes, coinRes] = await Promise.all([
-                    axios.get(`https://api.coingecko.com/api/v3/coins/${params.id}/market_chart?vs_currency=usd&days=7`),
+                const [graphRes1, coinRes] = await Promise.all([
+                    axios.get(`https://api.coingecko.com/api/v3/coins/${params.id}/market_chart?vs_currency=usd&days=1`),
                     axios.get(`https://api.coingecko.com/api/v3/coins/${params.id}?localization=false&market_data=true`)
                 ]);
 
-                const data = graphRes.data.prices.map(price => {
+                const data = graphRes1.data.prices.map(price => {
                     const [timestamp, p] = price;
                     const date = new Date(timestamp).toLocaleDateString('en-GB');
                     return {
@@ -36,24 +36,52 @@ function Show() {
         fetchData();
     }, []);
 
+    const buttonsStyle = {
+        color: "#9C18A0",
+        bg: "transparent",
+        _hover: { bg: "#9C88A0" }
+    }
+
+
+
     return (
         <div>
             <Nav />
+
             <Flex direction="column" alignItems="center" p={8}>
+                <Text color="#9C18A0" size="5px" marginTop={'-20px'} marginLeft={'13.9rem'} textDecoration="underline" fontSize={18}>Change timeframe</Text>
+                <Flex w="55.5%" justifyContent={"flex-end"} gap="17px">
+                    <Button sx={buttonsStyle}>
+                        Day
+                    </Button>
+                    <Button sx={buttonsStyle}>
+                        Week
+                    </Button>
+                    <Button sx={buttonsStyle}>
+                        Month
+                    </Button>
+                    <Button sx={buttonsStyle}>
+                        Year
+                    </Button>
+                </Flex>
                 <Flex align={'flex-start'} w={'100%'} justify={'space-around'}>
                     {coinData && (
                         <Flex align="center" mb={6}>
-                            <Image src={coinData.image.large} alt={coinData.name} w={32} h={32} borderRadius="full" boxShadow="lg" mr={4} />
+                            <Image src={coinData.image.large} alt={coinData.name} w={32} h={32} borderRadius="full" boxShadow="lg" mr={4} transition="transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275)"
+                                _hover={{
+                                    transform: "scale(1.1)",
+                                }} />
                             <Flex direction="column">
                                 <Text fontSize="4xl" fontWeight="bold" color="#9C68A0" mb={2}>
                                     {coinData.name}
                                 </Text>
-                                <Text fontSize="2xl" color="#9C68A0" mb={0}>
+                                <Text fontSize="2xl" color="#9C68A0" mb={0} >
                                     {coinData.symbol.toUpperCase()}
                                 </Text>
                             </Flex>
                         </Flex>
                     )}
+
                     <AreaChart
                         width={600}
                         height={400}

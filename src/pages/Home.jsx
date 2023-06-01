@@ -2,7 +2,7 @@ import axios from 'axios'
 import React, { useState, useCallback } from 'react'
 import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import { Box, Container, Table, Thead, Tbody, Tr, Th, Td, Text, Image, Flex, } from '@chakra-ui/react';
+import { Box, Container, Table, Thead, Tbody, Tr, Th, Td, Text, Image, Flex } from '@chakra-ui/react';
 import btcIcon from '../../src/icons/Bitcoin.svg';
 import debounce from '../hooks/Debounce'
 import Nav from '../components/partials/Nav';
@@ -19,16 +19,15 @@ function Home() {
     const [prcBtc, setPrcBtc] = useState('')
 
     const handleSearch = (e) => {
-        setQuery(e.target.value);
+        const newQuery = e.target.value;
+        setQuery(newQuery);
+        setIsSearching(newQuery.length > 2);
     };
+
 
     const debouncedSearch = debounce(handleSearch, 700);
 
     const handleDebouncedSearch = useCallback(debouncedSearch, []);
-
-    useEffect(() => {
-        setIsSearching(query.length > 2);
-    }, [query]);
 
     useEffect(() => {
 
@@ -40,7 +39,6 @@ function Home() {
 
             const btcPrice = btcRes.data.bitcoin.usd
             setPrcBtc(btcPrice);
-
             const trendingCoins = res.data.coins.map((coin) => {
                 return {
                     name: coin.item.name,
@@ -48,8 +46,8 @@ function Home() {
                     id: coin.item.id,
                     priceBtc: coin.item.price_btc,
                 };
+
             });
-            console.log(trendingCoins);
             setCoins(trendingCoins);
             setTrending(trendingCoins);
         };
@@ -73,10 +71,9 @@ function Home() {
                 });
                 setCoins(coinsResults);
             }
-            else {
+            else if (!isSearching && query.length < 3) {
                 setCoins(trending.map((coin) => ({
-                    ...coin,
-                    priceBtc: coin.priceBtc || 0
+                    ...coin
                 })));
             }
         };
@@ -88,7 +85,7 @@ function Home() {
     return (
         <>
             <Box backgroundColor="#f9f9f9" minHeight="100vh">
-                <Nav onSearchChange={handleDebouncedSearch} />
+                <Nav handleSearch={handleDebouncedSearch} />
                 <Container maxWidth="container.lg" py={8}>
                     <Text fontSize="2xl" fontWeight="bold" color="purple.500" mb={4} as="span"
                         _hover={{ textDecoration: 'underline' }}>
@@ -119,9 +116,12 @@ function Home() {
                                         {!isSearching && coin.priceBtc && (
                                             <Td>
                                                 <Flex alignItems="center" direction="column">
-                                                    <Text>${coin.priceBtc.toFixed(7) * prcBtc}</Text>
-                                                    {/* {coin.priceBtc.toFixed(7)} */}
-                                                    {/* <Image boxSize="20px" src={btcIcon} mr={1} /> */}
+                                                    <Text>USD ${coin.priceBtc.toFixed(6) * prcBtc}</Text>
+                                                </Flex>
+                                                <Flex alignItems="right" direction="row" justifyContent="center">
+                                                    <Image boxSize="20px" src={btcIcon} mr={1} />
+
+                                                    {coin.priceBtc.toFixed(7)}
                                                 </Flex>
                                             </Td>
                                         )}
