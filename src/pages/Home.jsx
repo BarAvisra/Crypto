@@ -2,10 +2,11 @@ import axios from 'axios'
 import React, { useState, useCallback } from 'react'
 import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import { Box, Container, Table, Thead, Tbody, Tr, Th, Td, Text, Image, Flex } from '@chakra-ui/react';
+import { Box, Container, Table, Thead, Tbody, Tr, Th, Td, Text, Image, Flex, Center } from '@chakra-ui/react';
 import btcIcon from '../../src/icons/Bitcoin.svg';
 import debounce from '../hooks/Debounce'
 import Nav from '../components/partials/Nav';
+import missingCrypto from '../../src/icons/missingcrypto.png'
 
 const trendingUrl = 'https://api.coingecko.com/api/v3/search/trending'
 const searchUrl = 'https://api.coingecko.com/api/v3/search?query='
@@ -103,7 +104,10 @@ function Home() {
                             {coins.length === 0 ? (
                                 <Tr>
                                     <Td colSpan={3} textAlign="center" fontSize={30}>
-                                        NO COINS FOUND
+                                        NO COINS FOUND ):
+                                        <Center>
+                                            <Image src={missingCrypto} w={400} marginTop={5} />
+                                        </Center>
                                     </Td>
                                 </Tr>
                             ) : (
