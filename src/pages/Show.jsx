@@ -8,13 +8,14 @@ import Nav from '../components/partials/Nav';
 function Show() {
     const [graphData, setGraphData] = useState([]);
     const [coinData, setCoinData] = useState(null);
+    const [timeFrameDays, setTimeFrameDays] = useState(30);
     const params = useParams();
 
     useEffect(() => {
         const fetchData = async () => {
             try {
                 const [graphRes1, coinRes] = await Promise.all([
-                    axios.get(`https://api.coingecko.com/api/v3/coins/${params.id}/market_chart?vs_currency=usd&days=1`),
+                    axios.get(`https://api.coingecko.com/api/v3/coins/${params.id}/market_chart?vs_currency=usd&days=${timeFrameDays}`),
                     axios.get(`https://api.coingecko.com/api/v3/coins/${params.id}?localization=false&market_data=true`)
                 ]);
 
@@ -32,35 +33,56 @@ function Show() {
                 console.log(error.message);
             }
         };
+        console.log(timeFrameDays);
 
         fetchData();
-    }, []);
+    }, [timeFrameDays]);
 
     const buttonsStyle = {
         color: "#9C18A0",
         bg: "transparent",
-        _hover: { bg: "#9C88A0" }
+        border: "1px solid #9C18A0",
+        _hover: {
+            bg: "transparent",
+        }
+    };
+
+    const handleTimeframeDateDay = () => {
+        setTimeFrameDays(1);
+        console.log(timeFrameDays);
     }
 
+    const handleTimeframeDateWeek = () => {
+        setTimeFrameDays(7);
+        console.log(timeFrameDays);
+    }
 
+    const handleTimeframeDateMonth = () => {
+        setTimeFrameDays(30);
+        console.log(timeFrameDays);
+    }
+
+    const handleTimeframeDateYear = () => {
+        setTimeFrameDays(365);
+    }
 
     return (
         <div>
             <Nav />
 
             <Flex direction="column" alignItems="center" p={8}>
-                <Text color="#9C18A0" size="5px" marginTop={'-20px'} marginLeft={'13.9rem'} textDecoration="underline" fontSize={18}>Change timeframe</Text>
-                <Flex w="55.5%" justifyContent={"flex-end"} gap="17px">
-                    <Button sx={buttonsStyle}>
+                <Text color="#9C18A0" size="5px" marginTop={'-25px'} marginLeft={'13.9rem'} paddingBottom={3} textDecoration="underline" fontSize={18}>Change timeframe</Text>
+                <Flex w="59.5%" justifyContent={"flex-end"} gap="17px">
+                    <Button sx={buttonsStyle} onClick={handleTimeframeDateDay}>
                         Day
                     </Button>
-                    <Button sx={buttonsStyle}>
+                    <Button sx={buttonsStyle} onClick={handleTimeframeDateWeek}>
                         Week
                     </Button>
-                    <Button sx={buttonsStyle}>
+                    <Button sx={buttonsStyle} onClick={handleTimeframeDateMonth}>
                         Month
                     </Button>
-                    <Button sx={buttonsStyle}>
+                    <Button sx={buttonsStyle} onClick={handleTimeframeDateYear}>
                         Year
                     </Button>
                 </Flex>
