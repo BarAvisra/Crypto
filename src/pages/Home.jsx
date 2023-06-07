@@ -96,7 +96,7 @@ function Home() {
                         <Thead>
                             <Tr>
                                 <Th></Th>
-                                <Th>Coin</Th>
+                                <Th textAlign="center">Coin</Th>
                                 {!isSearching && <Th textAlign='center'>Price</Th>}
                             </Tr>
                         </Thead>
@@ -113,14 +113,28 @@ function Home() {
                             ) : (
                                 coins.map((coin) => (
                                     <Tr key={coin.id}>
-                                        <Td><Image boxSize='60px' src={coin.image} /></Td>
-                                        <Td _hover={{ textDecoration: 'underline' }}>
+                                        <Td w={108}>
+                                            <Link to={`/${coin.id}`}><Image boxSize='60px' src={coin.image}
+                                                borderRadius="full"
+                                                boxShadow="lg"
+                                                mr={4}
+                                                transition="transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275)"
+                                                _hover={{
+                                                    transform: "scale(1.1)",
+                                                }} /></Link>
+                                        </Td>
+                                        <Td textAlign="center"
+                                            _hover={{
+                                                textDecoration: 'underline',
+                                                opacity: 0.8,
+                                                transition: 'opacity 0.2s ease-in'
+                                            }}>
                                             <Link to={`/${coin.id}`}>{coin.name}</Link>
                                         </Td>
                                         {!isSearching && coin.priceBtc && (
                                             <Td>
                                                 <Flex alignItems="center" direction="column">
-                                                    <Text>USD ${coin.priceBtc.toFixed(6) * prcBtc}</Text>
+                                                    <Text>USD {(coin.priceBtc * prcBtc).toFixed(6)}</Text>
                                                 </Flex>
                                                 <Flex alignItems="right" direction="row" justifyContent="center">
                                                     <Image boxSize="20px" src={btcIcon} mr={1} />

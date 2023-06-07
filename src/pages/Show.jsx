@@ -8,7 +8,7 @@ import Nav from '../components/partials/Nav';
 function Show() {
     const [graphData, setGraphData] = useState([]);
     const [coinData, setCoinData] = useState(null);
-    const [timeFrameDays, setTimeFrameDays] = useState(30);
+    const [timeFrameDays, setTimeFrameDays] = useState(1);
     const params = useParams();
 
     useEffect(() => {
@@ -29,11 +29,11 @@ function Show() {
                 });
                 setGraphData(data);
                 setCoinData(coinRes.data);
+                console.log(coinRes.data.market_data.current_price.usd);
             } catch (error) {
                 console.log(error.message);
             }
         };
-        console.log(timeFrameDays);
 
         fetchData();
     }, [timeFrameDays]);
@@ -43,23 +43,32 @@ function Show() {
         bg: "transparent",
         border: "1px solid #9C18A0",
         _hover: {
-            bg: "transparent",
-        }
+            bg: "#9C78A0",
+        },
+        padding: "10px",
+        height: "30px",
+    };
+    const selectedButtonStyle = {
+        color: "white",
+        bg: "#9C18A0",
+        _hover: {
+            bg: "#9C78A0",
+        },
+        border: "1px solid #9C18A0",
+        padding: "10px",
+        height: "30px",
     };
 
     const handleTimeframeDateDay = () => {
         setTimeFrameDays(1);
-        console.log(timeFrameDays);
     }
 
     const handleTimeframeDateWeek = () => {
         setTimeFrameDays(7);
-        console.log(timeFrameDays);
     }
 
     const handleTimeframeDateMonth = () => {
         setTimeFrameDays(30);
-        console.log(timeFrameDays);
     }
 
     const handleTimeframeDateYear = () => {
@@ -69,58 +78,65 @@ function Show() {
     return (
         <div>
             <Nav />
-
             <Flex direction="column" alignItems="center" p={8}>
-                <Text color="#9C18A0" size="5px" marginTop={'-25px'} marginLeft={'13.9rem'} paddingBottom={3} textDecoration="underline" fontSize={18}>Change timeframe</Text>
-                <Flex w="59.5%" justifyContent={"flex-end"} gap="17px">
-                    <Button sx={buttonsStyle} onClick={handleTimeframeDateDay}>
-                        Day
-                    </Button>
-                    <Button sx={buttonsStyle} onClick={handleTimeframeDateWeek}>
-                        Week
-                    </Button>
-                    <Button sx={buttonsStyle} onClick={handleTimeframeDateMonth}>
-                        Month
-                    </Button>
-                    <Button sx={buttonsStyle} onClick={handleTimeframeDateYear}>
-                        Year
-                    </Button>
-                </Flex>
-                <Flex align={'flex-start'} w={'100%'} justify={'space-around'}>
+                <Flex align={'flex-start'} w={'100%'} justify={'space-around'} marginTop={5}>
                     {coinData && (
                         <Flex align="center" mb={6}>
-                            <Image src={coinData.image.large} alt={coinData.name} w={32} h={32} borderRadius="full" boxShadow="lg" mr={4} transition="transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275)"
+                            <Image src={coinData.image.large}
+                                alt={coinData.name} w={32} h={32}
+                                borderRadius="full"
+                                boxShadow="lg"
+                                mr={4}
+                                transition="transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275)"
                                 _hover={{
                                     transform: "scale(1.1)",
                                 }} />
                             <Flex direction="column">
                                 <Text fontSize="4xl" fontWeight="bold" color="#9C68A0" mb={2}>
-                                    {coinData.name}
+                                    {coinData.name} ({coinData.symbol.toUpperCase()})
+
                                 </Text>
-                                <Text fontSize="2xl" color="#9C68A0" mb={0} >
-                                    {coinData.symbol.toUpperCase()}
+                                <Text fontSize="2xl" color="#9C68A0" mb={0}>
+                                    Current price ${coinData.market_data.current_price.usd}
                                 </Text>
                             </Flex>
                         </Flex>
                     )}
 
-                    <AreaChart
-                        width={600}
-                        height={400}
-                        data={graphData}
-                        margin={{
-                            top: 30,
-                            right: 30,
-                            left: 30,
-                            bottom: 0,
-                        }}
-                    >
-                        <CartesianGrid strokeDasharray="3 3" />
-                        <XAxis dataKey="date" tick={{ fontSize: '12px' }} />
-                        <YAxis tick={{ fontSize: '12px' }} />
-                        <Tooltip contentStyle={{ fontSize: '14px' }} />
-                        <Area type="monotone" dataKey="price" stroke="#9C27B0" fill="#9C58A0" />
-                    </AreaChart>
+                    <Box position="relative">
+                        <Flex w="77%" justify="center" position="absolute" top="-40px" left="0" right="0" gap={4} marginTop={4}>
+                            <Button sx={timeFrameDays === 1 ? selectedButtonStyle : buttonsStyle} onClick={handleTimeframeDateDay}>
+                                Day
+                            </Button>
+                            <Button sx={timeFrameDays === 7 ? selectedButtonStyle : buttonsStyle} onClick={handleTimeframeDateWeek}>
+                                Week
+                            </Button>
+                            <Button sx={timeFrameDays === 30 ? selectedButtonStyle : buttonsStyle} onClick={handleTimeframeDateMonth}>
+                                Month
+                            </Button>
+                            <Button sx={timeFrameDays === 365 ? selectedButtonStyle : buttonsStyle} onClick={handleTimeframeDateYear}>
+                                Year
+                            </Button>
+                        </Flex>
+
+                        <AreaChart
+                            width={600}
+                            height={400}
+                            data={graphData}
+                            margin={{
+                                top: 30,
+                                right: 30,
+                                left: 30,
+                                bottom: 0,
+                            }}
+                        >
+                            <CartesianGrid strokeDasharray="3 3" />
+                            <XAxis dataKey="date" tick={{ fontSize: '12px' }} />
+                            <YAxis tick={{ fontSize: '12px' }} />
+                            <Tooltip contentStyle={{ fontSize: '14px' }} />
+                            <Area type="monotone" dataKey="price" stroke="#9C27B0" fill="#9C58A0" />  </AreaChart>
+                    </Box>
+
                 </Flex>
                 {coinData && (
                     <Text

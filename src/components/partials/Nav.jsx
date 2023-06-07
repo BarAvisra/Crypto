@@ -18,7 +18,6 @@ function Nav({ handleSearch }) {
                 <Heading color="white" as="h1" fontSize="xl">
                     <MoonIcon mr={2} color="purple.500" />
                     <Button bg={"transparent"} size={30} _hover={{
-                        textDecoration: 'underline',
                         color: "purple.500"
                     }}
                     >
