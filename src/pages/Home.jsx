@@ -2,7 +2,7 @@ import axios from 'axios'
 import React, { useState, useCallback } from 'react'
 import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import { Box, Container, Table, Thead, Tbody, Tr, Th, Td, Text, Image, Flex, Center } from '@chakra-ui/react';
+import { Box, Container, Table, Thead, Tbody, Tr, Th, Td, Text, Image, Flex, Center, Button } from '@chakra-ui/react';
 import btcIcon from '../../src/icons/Bitcoin.svg';
 import debounce from '../hooks/Debounce'
 import Nav from '../components/partials/Nav';
@@ -48,7 +48,6 @@ function Home() {
                     id: coin.item.id,
                     priceBtc: coin.item.price_btc,
                 };
-
             });
             setCoins(trendingCoins);
             setTrending(trendingCoins);
@@ -122,7 +121,8 @@ function Home() {
                                                 transition="transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275)"
                                                 _hover={{
                                                     transform: "scale(1.1)",
-                                                }} /></Link>
+                                                }} />
+                                            </Link>
                                         </Td>
                                         <Td textAlign="center"
                                             _hover={{
@@ -130,7 +130,9 @@ function Home() {
                                                 opacity: 0.8,
                                                 transition: 'opacity 0.2s ease-in'
                                             }}>
-                                            <Link to={`/${coin.id}`}>{coin.name}</Link>
+                                            <Button style={{ border: "none", background: "none", cursor: "pointer", color: "grey.500" }}>
+                                                <Link to={`/${coin.id}`}>{coin.name}</Link>
+                                            </Button>
                                         </Td>
                                         {!isSearching && coin.priceBtc && (
                                             <Td>
