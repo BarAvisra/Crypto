@@ -104,7 +104,7 @@ function Show() {
                     )}
 
                     <Box position="relative">
-                        <Flex w="77%" justify="center" position="absolute" top="-40px" left="0" right="0" gap={4} marginTop={4}>
+                        <Flex w="39%" justify="center" position="absolute" top="-40px" left="0" right="0" gap={4} marginTop={4}>
                             <Button sx={timeFrameDays === 1 ? selectedButtonStyle : buttonsStyle} onClick={handleTimeframeDateDay}>
                                 Day
                             </Button>
@@ -120,7 +120,7 @@ function Show() {
                         </Flex>
 
                         <AreaChart
-                            width={600}
+                            width={1200}
                             height={400}
                             data={graphData}
                             margin={{

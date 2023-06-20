@@ -7,6 +7,7 @@ import btcIcon from '../../src/icons/Bitcoin.svg';
 import debounce from '../hooks/Debounce'
 import Nav from '../components/partials/Nav';
 import missingCrypto from '../../src/icons/missingcrypto.png'
+import Footer from '../components/partials/Footer';
 
 const trendingUrl = 'https://api.coingecko.com/api/v3/search/trending'
 const searchUrl = 'https://api.coingecko.com/api/v3/search?query='
@@ -149,6 +150,7 @@ function Home() {
                         </Tbody>
                     </Table>
                 </Container>
+                <Footer />
             </Box>
         </>
     );
