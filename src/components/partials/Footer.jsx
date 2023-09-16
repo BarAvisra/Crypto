@@ -1,14 +1,6 @@
-import { Box, Container, Flex, Text, IconButton, Link, useColorMode } from '@chakra-ui/react';
-import { SettingsIcon, MoonIcon } from '@chakra-ui/icons';
-import React from 'react';
+import { Box, Container, Flex, Text } from '@chakra-ui/react';
 
 function Footer() {
-    const { colorMode, toggleColorMode } = useColorMode();
-
-    const handleToggleColorMode = () => {
-        toggleColorMode();
-    };
-
     return (
         <Box backgroundColor="#333" py={4}>
             <Container maxWidth="container.lg" display="flex" alignItems="center" justifyContent="space-between">

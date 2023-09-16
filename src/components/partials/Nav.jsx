@@ -1,5 +1,5 @@
-import { Box, Container, Image, Heading, Input, IconButton, InputGroup, InputRightElement, Button, useColorMode, Flex } from '@chakra-ui/react';
-import { SearchIcon, SettingsIcon, MoonIcon } from '@chakra-ui/icons';
+import { Box, Container, Image, Heading, Input, IconButton, InputGroup, InputRightElement, Button, useColorMode, Flex, Text, useBreakpointValue } from '@chakra-ui/react';
+import { SearchIcon, SettingsIcon, MoonIcon, SunIcon } from '@chakra-ui/icons';
 import React from 'react'
 import { Link } from 'react-router-dom'
 import siteLogo from '../../icons/cryptocurrencies.png'
@@ -8,6 +8,9 @@ import siteLogo from '../../icons/cryptocurrencies.png'
 function Nav({ handleSearch }) {
 
     const { colorMode, toggleColorMode } = useColorMode();
+    const displayText = useBreakpointValue({ base: "none", md: "block" }); // Hide the text on base and show from md upwards
+    const inputSize = useBreakpointValue({ base: "md", md: "sm" });
+
 
     const handleToggleColorMode = () => {
         toggleColorMode();
@@ -17,48 +20,50 @@ function Nav({ handleSearch }) {
         <>
             <Box backgroundColor="#333" py={4}>
                 <Container maxWidth="container.lg" display="flex" alignItems="center" justifyContent="space-between">
-                    <Heading color="white" as="h1" fontSize="xl">
-                        <Flex gap={1}>
-                            <Image src={siteLogo} w={"42px"} />
-                            <Button bg={"transparent"} size={30} _hover={{
-                                color: "purple.500"
-                            }}
-                            >
-                                <Link to="/">CryptoTracker</Link>
-                            </Button>
-                        </Flex>
-                    </Heading>
-                    <Box display="flex" alignItems="center">
-                        <InputGroup maxWidth="sm" mr={2}>
-                            <Input type='text' textColor={'#718096'} placeholder="Search a coin" onChange={handleSearch} />
-                            <InputRightElement>
+                    <Flex color="white" alignItems="center">
+                        <Link to="/">
+                            <Image src={siteLogo} w={"42px"} mr={3} />
+                            <Text fontSize="xl" display={displayText}>
+                                CryptoTracker
+                            </Text>
+                        </Link>
+                    </Flex>
+                    <Flex alignItems="center">
+                        <InputGroup maxWidth={inputSize} mr={2}>
+                            <Input
+                                type='text'
+                                textColor={'#718096'}
+                                placeholder="Search a coin"
+                                onChange={handleSearch}
+                                size={inputSize}
+                                pr="2.5rem" // to ensure the input text doesn't go behind the icon
+                                borderRadius="md" // to give a rounded appearance
+                            />
+                            <InputRightElement height="full" mr={2} align="center">
                                 <IconButton
                                     aria-label="Search"
                                     icon={<SearchIcon color="purple.500" />}
                                     colorScheme="whiteAlpha"
                                     variant="ghost"
+                                    size={inputSize}
                                 />
                             </InputRightElement>
                         </InputGroup>
-                        <Flex alignItems="center">
-                            <IconButton
-                                aria-label="Settings"
-                                icon={<SettingsIcon />}
-                                colorScheme="whiteAlpha"
-                                variant="ghost"
-                                mr={2}
-                                _hover={{ color: 'purple.500' }}
-                            />
-                            <IconButton
-                                onClick={handleToggleColorMode}
-                                aria-label="Theme"
-                                icon={<MoonIcon />}
-                                colorScheme="whiteAlpha"
-                                variant="ghost"
-                                _hover={{ color: 'purple.500' }}
-                            />
-                        </Flex>
-                    </Box>
+
+                        <Link to='/watchlist' mr={3}>
+                            <Text color="white" fontWeight={"bold"}>
+                                Watchlist
+                            </Text>
+                        </Link>
+                        <IconButton
+                            onClick={handleToggleColorMode}
+                            aria-label="Theme"
+                            icon={colorMode === "dark" ? <MoonIcon /> : <SunIcon />}
+                            colorScheme="white"
+                            variant="ghost"
+                            _hover={{ color: 'purple.500' }}
+                        />
+                    </Flex>
                 </Container>
             </Box>
         </>
