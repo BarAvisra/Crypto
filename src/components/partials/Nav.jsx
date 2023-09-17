@@ -8,7 +8,7 @@ import siteLogo from '../../icons/cryptocurrencies.png'
 function Nav({ handleSearch }) {
 
     const { colorMode, toggleColorMode } = useColorMode();
-    const displayText = useBreakpointValue({ base: "none", md: "block" }); // Hide the text on base and show from md upwards
+    const displayText = useBreakpointValue({ base: "none", md: "block" });
     const inputSize = useBreakpointValue({ base: "md", md: "sm" });
 
 
@@ -20,14 +20,15 @@ function Nav({ handleSearch }) {
         <>
             <Box backgroundColor="#333" py={4}>
                 <Container maxWidth="container.lg" display="flex" alignItems="center" justifyContent="space-between">
-                    <Flex color="white" alignItems="center">
-                        <Link to="/">
+                    <Link to="/">
+                        <Flex align="center">
                             <Image src={siteLogo} w={"42px"} mr={3} />
-                            <Text fontSize="xl" display={displayText}>
+                            <Text fontSize="xl" color={"white"} display={displayText}>
                                 CryptoTracker
                             </Text>
-                        </Link>
-                    </Flex>
+                        </Flex>
+                    </Link>
+
                     <Flex alignItems="center">
                         <InputGroup maxWidth={inputSize} mr={2}>
                             <Input
@@ -36,8 +37,8 @@ function Nav({ handleSearch }) {
                                 placeholder="Search a coin"
                                 onChange={handleSearch}
                                 size={inputSize}
-                                pr="2.5rem" // to ensure the input text doesn't go behind the icon
-                                borderRadius="md" // to give a rounded appearance
+                                pr="2.5rem"
+                                borderRadius="md"
                             />
                             <InputRightElement height="full" mr={2} align="center">
                                 <IconButton

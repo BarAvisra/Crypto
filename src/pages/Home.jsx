@@ -97,7 +97,7 @@ function Home() {
                             _hover={{ textDecoration: 'underline' }}>
                             {isSearching ? 'Results' : 'Trending'}
                         </Text>
-                        <Table variant="striped">
+                        <Table variant="simple">
                             <Thead>
                                 <Tr>
                                     <Th></Th>

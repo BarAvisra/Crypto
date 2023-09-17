@@ -52,7 +52,6 @@ function Watchlist() {
                 </Text>
 
                 {isTableLayout ? (
-                    // Table layout for larger screens
                     <Table variant="striped">
                         <Thead>
                             <Tr>
@@ -78,11 +77,14 @@ function Watchlist() {
                                     <Tr key={coin.id}>
                                         <Td>
                                             <Image
-                                                boxSize='60px'
-                                                src={coin.image.large}
+                                                w={"70px"} src={coin.image.large}
                                                 borderRadius="full"
                                                 boxShadow="lg"
-                                                alt={coin.name}
+                                                mr={4}
+                                                transition="transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275)"
+                                                _hover={{
+                                                    transform: "scale(1.1)",
+                                                }}
                                             />
                                         </Td>
                                         <Td>
