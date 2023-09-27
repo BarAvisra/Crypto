@@ -9,7 +9,7 @@ function AboutCoin({ coinData }) {
                 mb={4}
                 fontSize="xl"
                 textAlign="center"
-                color="gray.800"
+                color="gray.700"
             >
                 About {coinData.name}
             </Heading>
@@ -17,7 +17,7 @@ function AboutCoin({ coinData }) {
             <Box
                 fontSize={coinData.description.en.length > 250 ? "md" : "lg"}
                 maxH={"380px"}
-                maxW={"530px"}
+                maxW={"510px"}
                 sx={{
                     // For Webkit browsers
                     '&::-webkit-scrollbar': {
@@ -37,7 +37,7 @@ function AboutCoin({ coinData }) {
                     scrollbarWidth: '1px',
                 }}
                 overflow={"auto"}
-                color="gray.600"
+                color="gray"
                 textAlign="center"
                 lineHeight="1.6"
                 dangerouslySetInnerHTML={{ __html: coinData.description.en }}>
