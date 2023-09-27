@@ -90,75 +90,73 @@ function Home() {
     return (
         <>
             <Flex direction="column" minHeight="100vh">
-                <Box backgroundColor="#f9f9f9" flexGrow={1}>
-                    <Nav handleSearch={handleDebouncedSearch} />
-                    <Container maxWidth="container.lg" py={8}>
-                        <Text fontSize="2xl" fontWeight="bold" color="purple.500" mb={4} as="span"
-                            _hover={{ textDecoration: 'underline' }}>
-                            {isSearching ? 'Results' : 'Trending'}
-                        </Text>
-                        <Table variant="simple">
-                            <Thead>
+                <Nav handleSearch={handleDebouncedSearch} />
+                <Container maxWidth="container.lg" py={8}>
+                    <Text fontSize="2xl" fontWeight="bold" color="purple.500" mb={4} as="span"
+                        _hover={{ textDecoration: 'underline' }}>
+                        {isSearching ? 'Results' : 'Trending'}
+                    </Text>
+                    <Table variant="simple">
+                        <Thead>
+                            <Tr>
+                                <Th></Th>
+                                <Th textAlign="center">Coin</Th>
+                                {!isSearching && <Th textAlign='center'>Price</Th>}
+                            </Tr>
+                        </Thead>
+                        <Tbody>
+                            {coins.length === 0 ? (
                                 <Tr>
-                                    <Th></Th>
-                                    <Th textAlign="center">Coin</Th>
-                                    {!isSearching && <Th textAlign='center'>Price</Th>}
-                                </Tr>
-                            </Thead>
-                            <Tbody>
-                                {coins.length === 0 ? (
-                                    <Tr>
-                                        <Td colSpan={3} textAlign="center" fontSize={30}>
-                                            <Center>
-                                                {searchCompleted ? (
-                                                    <Image src={missingCrypto} w={400} alt="No coins found" />
-                                                ) : (
-                                                    <Image src={Loader} alt="Loading..." />
-                                                )}
-                                            </Center>
-                                        </Td>
-                                    </Tr>
-                                ) : (
-                                    coins.map((coin) => (
-                                        <Tr key={coin.id}>
-                                            <Td w={108}>
-                                                <Link to={`/${coin.id}`}><Image w={"70px"} src={coin.image}
-                                                    borderRadius="full"
-                                                    boxShadow="lg"
-                                                    mr={4}
-                                                    transition="transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275)"
-                                                    _hover={{
-                                                        transform: "scale(1.1)",
-                                                    }} />
-                                                </Link>
-                                            </Td>
-                                            <Td textAlign="center"
-                                                _hover={{
-                                                    textDecoration: 'underline',
-                                                    opacity: 0.8,
-                                                    transition: 'opacity 0.2s ease-in'
-                                                }}>
-                                                <Link to={`/${coin.id}`}>{coin.name}</Link>
-                                            </Td>
-                                            {!isSearching && coin.priceBtc && (
-                                                <Td>
-                                                    <Flex alignItems="center" direction="column">
-                                                        <Text>USD {(coin.priceBtc * prcBtc).toFixed(6)}</Text>
-                                                    </Flex>
-                                                    <Flex alignItems="right" direction="row" justifyContent="center">
-                                                        <Image boxSize="20px" src={btcIcon} mr={1} />
-
-                                                        {coin.priceBtc.toFixed(7)}
-                                                    </Flex>
-                                                </Td>
+                                    <Td colSpan={3} textAlign="center" fontSize={30}>
+                                        <Center>
+                                            {searchCompleted ? (
+                                                <Image src={missingCrypto} w={400} alt="No coins found" />
+                                            ) : (
+                                                <Image src={Loader} alt="Loading..." />
                                             )}
-                                        </Tr>
-                                    ))
-                                )}
-                            </Tbody>
-                        </Table>
-                    </Container>
-                </Box>
+                                        </Center>
+                                    </Td>
+                                </Tr>
+                            ) : (
+                                coins.map((coin) => (
+                                    <Tr key={coin.id}>
+                                        <Td w={108}>
+                                            <Link to={`/${coin.id}`}><Image w={"70px"} src={coin.image}
+                                                borderRadius="full"
+                                                boxShadow="lg"
+                                                mr={4}
+                                                transition="transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275)"
+                                                _hover={{
+                                                    transform: "scale(1.1)",
+                                                }} />
+                                            </Link>
+                                        </Td>
+                                        <Td textAlign="center"
+                                            _hover={{
+                                                textDecoration: 'underline',
+                                                opacity: 0.8,
+                                                transition: 'opacity 0.2s ease-in'
+                                            }}>
+                                            <Link to={`/${coin.id}`}>{coin.name}</Link>
+                                        </Td>
+                                        {!isSearching && coin.priceBtc && (
+                                            <Td>
+                                                <Flex alignItems="center" direction="column">
+                                                    <Text>USD {(coin.priceBtc * prcBtc).toFixed(6)}</Text>
+                                                </Flex>
+                                                <Flex alignItems="right" direction="row" justifyContent="center">
+                                                    <Image boxSize="20px" src={btcIcon} mr={1} />
+
+                                                    {coin.priceBtc.toFixed(7)}
+                                                </Flex>
+                                            </Td>
+                                        )}
+                                    </Tr>
+                                ))
+                            )}
+                        </Tbody>
+                    </Table>
+                </Container>
                 <Footer />
             </Flex>
 

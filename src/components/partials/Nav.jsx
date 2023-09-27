@@ -1,5 +1,5 @@
-import { Box, Container, Image, Heading, Input, IconButton, InputGroup, InputRightElement, Button, useColorMode, Flex, Text, useBreakpointValue } from '@chakra-ui/react';
-import { SearchIcon, SettingsIcon, MoonIcon, SunIcon } from '@chakra-ui/icons';
+import { Box, Container, Image, Input, IconButton, InputGroup, InputRightElement, useColorMode, Flex, Text, useBreakpointValue } from '@chakra-ui/react';
+import { SearchIcon, MoonIcon, SunIcon } from '@chakra-ui/icons';
 import React from 'react'
 import { Link } from 'react-router-dom'
 import siteLogo from '../../icons/cryptocurrencies.png'
@@ -18,7 +18,7 @@ function Nav({ handleSearch }) {
 
     return (
         <>
-            <Box backgroundColor="#333" py={4}>
+            <Box backgroundColor="#141821" py={4}>
                 <Container maxWidth="container.lg" display="flex" alignItems="center" justifyContent="space-between">
                     <Link to="/">
                         <Flex align="center">
@@ -59,7 +59,7 @@ function Nav({ handleSearch }) {
                         <IconButton
                             onClick={handleToggleColorMode}
                             aria-label="Theme"
-                            icon={colorMode === "dark" ? <MoonIcon /> : <SunIcon />}
+                            icon={colorMode === "dark" ? <MoonIcon /> : <SunIcon color={"white"} />}
                             colorScheme="white"
                             variant="ghost"
                             _hover={{ color: 'purple.500' }}

@@ -2,7 +2,7 @@ import { Box, Container, Flex, Text } from '@chakra-ui/react';
 
 function Footer() {
     return (
-        <Box backgroundColor="#333" py={4}>
+        <Box backgroundColor="#141821" py={4}>
             <Container maxWidth="container.lg" display="flex" alignItems="center" justifyContent="space-between">
                 <Flex alignItems="center">
                     <Text color="white" fontSize="lg" fontWeight="bold">
