@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { useEffect, useState, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
-import { Flex, Image, Text, Button, Container, Stack, useBreakpointValue, ButtonGroup } from '@chakra-ui/react';
+import { Flex, Image, Text, Button, Container, Stack, useBreakpointValue, ButtonGroup, Grid, GridItem } from '@chakra-ui/react';
 import Nav from '../components/partials/Nav';
 import debounce from '../hooks/Debounce'
 import CoinStats from '../components/partials//CoinStats';
@@ -199,114 +199,83 @@ function Show() {
     return (
         <>
             <Nav handleSearch={handleDebouncedSearch} />
-            {isSearching === false ? (
-                <Flex justify={"center"} m={5}>
-                    {coinData && (
-                        <Flex align="center" flexDirection={flexDir} mb={6} >
-                            <Flex direction="column" spacing={4}>
-                                <Flex flexDirection="row" mb={5}>
-                                    <Image
-                                        src={coinData.image.large}
-                                        alt={coinData.name}
-                                        w={imageSize}
-                                        h={imageSize}
-                                        borderRadius="full"
-                                        boxShadow="lg"
-                                        mr={4}
-                                        transition="transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275)"
-                                        _hover={{
-                                            transform: "scale(1.1)",
-                                        }}
-                                    />
-                                    <Flex flexDirection={flexDir}>
-                                        <Text fontSize="4xl" fontWeight="bold" color={primaryTextColor}>
-                                            {coinData.name} ({coinData.symbol.toUpperCase()})
-                                        </Text>
-
-                                        <Text fontSize="2xl" color={primaryTextColor}>
-                                            Current price: ${coinData.market_data.current_price.usd.toLocaleString()}
-                                        </Text>
-                                    </Flex>
-                                </Flex>
-                                <Flex direction="row" wrap="wrap" spacing={4} p={4} borderRadius="md" boxShadow="lg" justify="space-between" maxW={"600px"} w={"570px"}>
-                                    <CoinStats coinData={coinData} />
-                                </Flex>
-                            </Flex>
-                            <Stack spacing={7} direction="row" mt={5} justifyContent={justifyContent}>
-                                <Buttons coinData={coinData} />
-                            </Stack>
-                            <Flex>
-                                {coinData && (
-                                    <Flex flexDirection={flexDir}
-                                        w={"100%"}
-                                        mt={8}
-                                        py={5}
-                                        px={8}
-                                        borderRadius="md"
-                                        boxShadow="0 4px 12px rgba(0,0,0,0.05)"
-                                        maxW="800px"
-                                    >
-                                        <AboutCoin coinData={coinData} />
-                                    </Flex>
-                                )}
+            <Flex justify={"center"} m={[2, 4, 5]} direction={["column", "row"]} wrap={["wrap", "nowrap"]}>
+                {coinData && (
+                    <Flex direction="column" spacing={4} mb={[4, 0]} maxWidth={["100%", "initial"]} >
+                        <Flex flexDirection={["column", "row"]} mb={5} alignItems="center">
+                            <Image
+                                src={coinData.image.large}
+                                alt={coinData.name}
+                                w={["30%", "auto"]} // Reduce image size on smaller screens
+                                h={[imageSize / 2, imageSize]} // Adjust height accordingly
+                                borderRadius="full"
+                                boxShadow="lg"
+                                mb={[4, 0]}
+                                mr={[0, 4]}
+                                transition="transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275)"
+                                _hover={{ transform: "scale(1.1)" }}
+                            />
+                            <Flex flexDirection="column" alignItems={["center", "flex-start"]} textAlign={["center", "left"]}>
+                                <Text fontSize={["3xl", "2xl", "3xl"]} fontWeight="bold" color={primaryTextColor}>
+                                    {coinData.name} ({coinData.symbol.toUpperCase()})
+                                </Text>
+                                <Text fontSize={["xl", "xl", "2xl"]} color={primaryTextColor}>
+                                    Current price: ${coinData.market_data.current_price.usd.toLocaleString()}
+                                </Text>
                             </Flex>
                         </Flex>
-                    )}
-                    <Flex flexDirection={flexDir}>
-                        <Flex
-
-                            justify="center">
-                            <ButtonGroup spacing={4}>
-                                <Button
-                                    sx={timeFrameDays === 1 ? selectedButtonStyle : buttonsStyle}
-                                    onClick={handleTimeframeDateDay}
-                                >
-                                    Day
-                                </Button>
-                                <Button
-                                    sx={timeFrameDays === 7 ? selectedButtonStyle : buttonsStyle}
-                                    onClick={handleTimeframeDateWeek}
-                                >
-                                    Week
-                                </Button>
-                                <Button
-                                    sx={timeFrameDays === 30 ? selectedButtonStyle : buttonsStyle}
-                                    onClick={handleTimeframeDateMonth}
-                                >
-                                    Month
-                                </Button>
-                                <Button
-                                    sx={timeFrameDays === 365 ? selectedButtonStyle : buttonsStyle}
-                                    onClick={handleTimeframeDateYear}
-                                >
-                                    Year
-                                </Button>
-                            </ButtonGroup>
-
+                        <Flex wrap="wrap" justify="space-between" >
+                            <CoinStats coinData={coinData} />
                         </Flex>
-                        <Text fontSize="30px" fontWeight="semibold" color={primaryTextColor} mb={1} ml={"10%"} mt={"10px"}>
-                            Price Chart
-                        </Text>
-                        <PriceChart graphData={graphData} />
-                        <Text fontSize="30px" fontWeight="semibold" color={primaryTextColor} mb={1} ml={"10%"} mt={"10px"}>
-                            Market Cap Chart
-                        </Text>
-                        <CandleChart graphMarkCapData={graphMarkCapData} abbreviateNumber={abbreviateNumber} formatCurrency={formatCurrency} />
+                        <Stack spacing={7} direction={["column", "row"]} mt={5} justifyContent="space-between" alignItems="center">
+                            <Buttons coinData={coinData} />
+                        </Stack>
+                        <Flex direction="column" mt={8} py={5} px={8} borderRadius="md" boxShadow="0 4px 12px rgba(0,0,0,0.05)">
+                            <AboutCoin coinData={coinData} />
+                        </Flex>
                     </Flex>
+                )}
+
+                <Flex direction="column" alignItems="center" mt={[5, 0]}>
+                    <ButtonGroup spacing={4}>
+                        <Button
+                            sx={timeFrameDays === 1 ? selectedButtonStyle : buttonsStyle}
+                            onClick={handleTimeframeDateDay}
+                        >
+                            Day
+                        </Button>
+                        <Button
+                            sx={timeFrameDays === 7 ? selectedButtonStyle : buttonsStyle}
+                            onClick={handleTimeframeDateWeek}
+                        >
+                            Week
+                        </Button>
+                        <Button
+                            sx={timeFrameDays === 30 ? selectedButtonStyle : buttonsStyle}
+                            onClick={handleTimeframeDateMonth}
+                        >
+                            Month
+                        </Button>
+                        <Button
+                            sx={timeFrameDays === 365 ? selectedButtonStyle : buttonsStyle}
+                            onClick={handleTimeframeDateYear}
+                        >
+                            Year
+                        </Button>                    </ButtonGroup>
+                    <Text fontSize={["2xl", "3xl"]} fontWeight="semibold" color={primaryTextColor} mb={1} textAlign="center">
+                        Price chart
+                    </Text>
+                    <PriceChart graphData={graphData} />
+                    <Text fontSize={["2xl", "3xl"]} fontWeight="semibold" color={primaryTextColor} mb={1} textAlign="center">
+                        Market cap chart
+                    </Text>
+                    <CandleChart graphMarkCapData={graphMarkCapData} abbreviateNumber={abbreviateNumber} formatCurrency={formatCurrency} />
                 </Flex>
-            ) : (
-                <div>
-                    <Container maxWidth="container.lg" py={8} >
-                        <Text fontSize="2xl" fontWeight="bold" color="purple.500" mb={4} as="span">
-                            Results
-                        </Text>
-                        <SearchTable coins={coins} handleRefreshPage={handleRefreshPage} />
-                    </Container>
-                </div>
-            )}
+            </Flex>
         </>
     );
 
-}
+};
+
 
 export default Show;
