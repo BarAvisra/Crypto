@@ -199,90 +199,101 @@ function Show() {
     return (
         <>
             <Nav handleSearch={handleDebouncedSearch} />
-            <Flex justify={"center"} m={[2, 4, 5]} direction={["column", "row"]} wrap={["wrap", "nowrap"]}>
-                {coinData && (
-                    <Flex direction="column" spacing={4} mb={[4, 0]} maxWidth={["100%", "initial"]} >
-                        <Flex flexDirection={["column", "row"]} mb={5} alignItems="center">
-                            <Image
-                                src={coinData.image.large}
-                                alt={coinData.name}
-                                w={["30%", "auto"]}
-                                h={[imageSize / 2, imageSize]}
-                                borderRadius="full"
-                                boxShadow="lg"
-                                mb={[4, 0]}
-                                mr={[0, 4]}
-                                transition="transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275)"
-                                _hover={{ transform: "scale(1.1)" }}
-                            />
-                            <Flex flexDirection="column" alignItems={["center", "flex-start"]} textAlign={["center", "left"]}>
-                                <Text fontSize={["3xl", "2xl", "3xl"]} fontWeight="bold" color={primaryTextColor}>
-                                    {coinData.name} ({coinData.symbol.toUpperCase()})
-                                </Text>
-                                <Text fontSize={["xl", "xl", "2xl"]} color={primaryTextColor}>
-                                    Current price: ${coinData.market_data.current_price.usd.toLocaleString()}
-                                </Text>
+            {isSearching === false ? (
+                <Flex justify={"center"} m={[2, 4, 5]} direction={["column", "row"]} wrap={["wrap", "nowrap"]}>
+                    {coinData && (
+                        <Flex direction="column" spacing={4} mb={[4, 0]} maxWidth={["100%", "initial"]} >
+                            <Flex flexDirection={["column", "row"]} mb={5} alignItems="center">
+                                <Image
+                                    src={coinData.image.large}
+                                    alt={coinData.name}
+                                    w={["30%", "auto"]}
+                                    h={[imageSize / 2, imageSize]}
+                                    borderRadius="full"
+                                    boxShadow="lg"
+                                    mb={[4, 0]}
+                                    mr={[0, 4]}
+                                    transition="transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275)"
+                                    _hover={{ transform: "scale(1.1)" }}
+                                />
+                                <Flex flexDirection="column" alignItems={["center", "flex-start"]} textAlign={["center", "left"]}>
+                                    <Text fontSize={["3xl", "2xl", "3xl"]} fontWeight="bold" color={primaryTextColor}>
+                                        {coinData.name} ({coinData.symbol.toUpperCase()})
+                                    </Text>
+                                    <Text fontSize={["xl", "xl", "2xl"]} color={primaryTextColor}>
+                                        Current price: ${coinData.market_data.current_price.usd.toLocaleString()}
+                                    </Text>
+                                </Flex>
+                            </Flex>
+                            <Flex
+                                ml={["15%", "0%", "0%", "0%"]} // Margin left: 15% on mobile, 0% on larger screens
+                                wrap="wrap"
+                                justify="space-between"
+                            >
+                                <CoinStats coinData={coinData} />
+                            </Flex>
+
+                            <Stack spacing={7} direction={["column", "row"]} mt={5} justifyContent="space-between" alignItems="center">
+                                <Buttons coinData={coinData} />
+                            </Stack>
+                            <Flex direction="column" mt={8} py={5} px={8} borderRadius="md" boxShadow="0 4px 12px rgba(0,0,0,0.05)">
+                                <AboutCoin coinData={coinData} />
                             </Flex>
                         </Flex>
-                        <Flex
-                            ml={["15%", "0%", "0%", "0%"]} // Margin left: 15% on mobile, 0% on larger screens
-                            wrap="wrap"
-                            justify="space-between"
-                        >
-                            <CoinStats coinData={coinData} />
-                        </Flex>
+                    )}
 
-                        <Stack spacing={7} direction={["column", "row"]} mt={5} justifyContent="space-between" alignItems="center">
-                            <Buttons coinData={coinData} />
-                        </Stack>
-                        <Flex direction="column" mt={8} py={5} px={8} borderRadius="md" boxShadow="0 4px 12px rgba(0,0,0,0.05)">
-                            <AboutCoin coinData={coinData} />
-                        </Flex>
+                    <Flex direction="column" alignItems="center" mt={[5, 0]}>
+                        <ButtonGroup spacing={4}>
+                            <Button
+                                sx={timeFrameDays === 1 ? selectedButtonStyle : buttonsStyle}
+                                onClick={handleTimeframeDateDay}
+                            >
+                                Day
+                            </Button>
+                            <Button
+                                sx={timeFrameDays === 7 ? selectedButtonStyle : buttonsStyle}
+                                onClick={handleTimeframeDateWeek}
+                            >
+                                Week
+                            </Button>
+                            <Button
+                                sx={timeFrameDays === 30 ? selectedButtonStyle : buttonsStyle}
+                                onClick={handleTimeframeDateMonth}
+                            >
+                                Month
+                            </Button>
+                            <Button
+                                sx={timeFrameDays === 365 ? selectedButtonStyle : buttonsStyle}
+                                onClick={handleTimeframeDateYear}
+                            >
+                                Year
+                            </Button>
+                        </ButtonGroup>
+
+                        <Text fontSize={["2xl", "3xl"]} fontWeight="semibold" color={primaryTextColor} mb={1} textAlign="center">
+                            Price chart
+                        </Text>
+
+                        <PriceChart graphData={graphData} />
+
+
+                        <Text fontSize={["2xl", "3xl"]} fontWeight="semibold" color={primaryTextColor} mb={1} textAlign="center">
+                            Market cap chart
+                        </Text>
+                        <CandleChart graphMarkCapData={graphMarkCapData} abbreviateNumber={abbreviateNumber} formatCurrency={formatCurrency} />
+
                     </Flex>
-                )}
-
-                <Flex direction="column" alignItems="center" mt={[5, 0]}>
-                    <ButtonGroup spacing={4}>
-                        <Button
-                            sx={timeFrameDays === 1 ? selectedButtonStyle : buttonsStyle}
-                            onClick={handleTimeframeDateDay}
-                        >
-                            Day
-                        </Button>
-                        <Button
-                            sx={timeFrameDays === 7 ? selectedButtonStyle : buttonsStyle}
-                            onClick={handleTimeframeDateWeek}
-                        >
-                            Week
-                        </Button>
-                        <Button
-                            sx={timeFrameDays === 30 ? selectedButtonStyle : buttonsStyle}
-                            onClick={handleTimeframeDateMonth}
-                        >
-                            Month
-                        </Button>
-                        <Button
-                            sx={timeFrameDays === 365 ? selectedButtonStyle : buttonsStyle}
-                            onClick={handleTimeframeDateYear}
-                        >
-                            Year
-                        </Button>
-                    </ButtonGroup>
-
-                    <Text fontSize={["2xl", "3xl"]} fontWeight="semibold" color={primaryTextColor} mb={1} textAlign="center">
-                        Price chart
-                    </Text>
-
-                    <PriceChart graphData={graphData} />
-
-
-                    <Text fontSize={["2xl", "3xl"]} fontWeight="semibold" color={primaryTextColor} mb={1} textAlign="center">
-                        Market cap chart
-                    </Text>
-                    <CandleChart graphMarkCapData={graphMarkCapData} abbreviateNumber={abbreviateNumber} formatCurrency={formatCurrency} />
-
                 </Flex>
-            </Flex>
+            ) : (
+                <div>
+                    <Container maxWidth="container.lg" py={8} >
+                        <Text fontSize="2xl" fontWeight="bold" color="purple.500" mb={4} as="span">
+                            Results
+                        </Text>
+                        <SearchTable coins={coins} handleRefreshPage={handleRefreshPage} />
+                    </Container>
+                </div>
+            )}
         </>
     );
 
