@@ -1,11 +1,13 @@
-import React from 'react'
-import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
-
+import React from 'react';
+import {
+    AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer
+} from 'recharts';
+import { Box } from '@chakra-ui/react';
 
 function PriceChart({ graphData }) {
     return (
-        <>
-            <ResponsiveContainer width={900} height={400} >
+        <Box width={["100%", "100%", "850px"]} height="400px">
+            <ResponsiveContainer width="100%" height="100%">
                 <AreaChart
                     data={graphData}
                     margin={{
@@ -25,16 +27,11 @@ function PriceChart({ graphData }) {
                     <XAxis dataKey="date" tick={{ fontSize: '12px' }} />
                     <YAxis tick={{ fontSize: '12px' }} />
                     <Tooltip contentStyle={{ fontSize: '14px' }} />
-                    <Area type="monotone"
-                        dataKey="price"
-                        stroke="#9C27B0"
-                        fill="url(#colorUv)"
-                        strokeWidth={2}
-                    />
+                    <Area type="monotone" dataKey="price" stroke="#9C27B0" fill="url(#colorUv)" strokeWidth={2} />
                 </AreaChart>
             </ResponsiveContainer>
-        </>
-    )
+        </Box>
+    );
 }
 
-export default PriceChart
+export default PriceChart;

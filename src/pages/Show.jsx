@@ -10,7 +10,7 @@ import AboutCoin from '../components/partials/AboutCoin';
 import CandleChart from '../components/partials/CandleChart';
 import PriceChart from '../components/partials/PriceChart';
 import SearchTable from '../components/partials/SearchTable';
-
+import { ResponsiveContainer } from 'recharts';
 
 
 function Show() {
@@ -206,8 +206,8 @@ function Show() {
                             <Image
                                 src={coinData.image.large}
                                 alt={coinData.name}
-                                w={["30%", "auto"]} // Reduce image size on smaller screens
-                                h={[imageSize / 2, imageSize]} // Adjust height accordingly
+                                w={["30%", "auto"]}
+                                h={[imageSize / 2, imageSize]}
                                 borderRadius="full"
                                 boxShadow="lg"
                                 mb={[4, 0]}
@@ -224,9 +224,14 @@ function Show() {
                                 </Text>
                             </Flex>
                         </Flex>
-                        <Flex wrap="wrap" justify="space-between" >
+                        <Flex
+                            ml={["15%", "0%", "0%", "0%"]} // Margin left: 15% on mobile, 0% on larger screens
+                            wrap="wrap"
+                            justify="space-between"
+                        >
                             <CoinStats coinData={coinData} />
                         </Flex>
+
                         <Stack spacing={7} direction={["column", "row"]} mt={5} justifyContent="space-between" alignItems="center">
                             <Buttons coinData={coinData} />
                         </Stack>
@@ -261,15 +266,21 @@ function Show() {
                             onClick={handleTimeframeDateYear}
                         >
                             Year
-                        </Button>                    </ButtonGroup>
+                        </Button>
+                    </ButtonGroup>
+
                     <Text fontSize={["2xl", "3xl"]} fontWeight="semibold" color={primaryTextColor} mb={1} textAlign="center">
                         Price chart
                     </Text>
+
                     <PriceChart graphData={graphData} />
+
+
                     <Text fontSize={["2xl", "3xl"]} fontWeight="semibold" color={primaryTextColor} mb={1} textAlign="center">
                         Market cap chart
                     </Text>
                     <CandleChart graphMarkCapData={graphMarkCapData} abbreviateNumber={abbreviateNumber} formatCurrency={formatCurrency} />
+
                 </Flex>
             </Flex>
         </>
